@@ -1,3 +1,4 @@
 import ExaminorHome from "./ExaminorHome";
+import Loader from "./Loader";
 
-export { ExaminorHome };
+export { ExaminorHome, Loader };
