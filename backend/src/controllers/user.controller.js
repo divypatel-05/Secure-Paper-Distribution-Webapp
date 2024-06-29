@@ -107,4 +107,24 @@ const resetPassword = asyncHandler(async (req, res) => {
     sendToken(user, 200, res);
 });
 
-export { login, forgotPassword, resetPassword, logout };
+//Get user
+const getUser = asyncHandler(async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        throw new ErrorHandler("You are not logged in", 200);
+    }
+
+    const _id = await jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(_id);
+
+    if (!user) {
+        throw new ErrorHandler("Token Expired", 200);
+    }
+    res.status(200).json({
+        success: true,
+        user,
+    });
+});
+
+export { login, forgotPassword, resetPassword, logout, getUser };

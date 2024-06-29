@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import App from "./App.jsx";
 import "./index.css";
+<<<<<<< HEAD
 import { AddUser, Login, Admin } from "./routes";
 
 import ExaminerList from "./routes/ExaminerList.jsx";
@@ -22,4 +23,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </Routes>
     </Router>
   </React.StrictMode>
+=======
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+>>>>>>> c7963fb5bf2296ac11ab29918ac243f94c49c477
 );

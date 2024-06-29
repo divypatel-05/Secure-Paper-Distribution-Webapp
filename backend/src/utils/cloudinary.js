@@ -17,7 +17,7 @@ export const uploadImage = async (localFile) => {
     try {
         // Upload an image
         const uploadResult = await cloudinary.uploader.upload(localFile.path, {
-            resource_type: "auto",
+            resource_type: "raw",
         });
 
         // Capture the URL of the uploaded image
