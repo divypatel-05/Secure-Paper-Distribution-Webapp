@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { upload } from "../middlewares/multer.middleware.js";
+import { register } from "../controllers/admin.controller.js";
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
-// import {isLo} from "../"
-import { addPaper } from "../controllers/admin.controller.js";
+import { isLoggedin } from "../middlewares/isLoggedin.middleware.js";
 
 const router = Router();
 
-// router.route("/add/paper").post(isLoggedin, upload.single("paper"), addPaper);
+//Register
+router.route("/register").post(isLoggedin, isAdmin, register);
 
 export default router;

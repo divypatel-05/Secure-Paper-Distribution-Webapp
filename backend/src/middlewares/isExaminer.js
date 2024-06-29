@@ -1,7 +1,7 @@
 import { ErrorHandler } from "../utils/errorHandler.js";
 
-const isAdmin = (req, res, next) => {
-    if (req.user.role.toLowerCase() !== "admin") {
+const isExaminer = (req, res, next) => {
+    if (req.user.role.toLowerCase() !== "examiner") {
         next(
             new ErrorHandler(
                 `Role : ${req.user.role} is not allowed to access`,
@@ -12,4 +12,4 @@ const isAdmin = (req, res, next) => {
     next();
 };
 
-export { isAdmin };
+export { isExaminer };

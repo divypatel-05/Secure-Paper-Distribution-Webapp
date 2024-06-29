@@ -10,12 +10,6 @@ const userSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        enrollment: {
-            type: String,
-            required: true,
-            trim: true,
-            unique: true,
-        },
         email: {
             type: String,
             required: true,
@@ -39,15 +33,10 @@ const userSchema = new mongoose.Schema(
             trim: true,
             select: false,
         },
-        gender: {
-            type: String,
-            required: true,
-            enum: ["male", "female", "other"],
-        },
         role: {
             type: String,
             required: true,
-            enum: ["Student", "Teacher"],
+            enum: ["admin", "examiner", "invigilator"],
             default: "Student",
         },
     },

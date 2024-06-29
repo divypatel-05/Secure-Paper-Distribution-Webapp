@@ -1,55 +1,20 @@
-import { ErrorHandler } from "../utils/errorHandler.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ErrorHandler } from "../utils/errorHandler.js";
 import { sendToken } from "../utils/sendToken.js";
-
-// Register a new User
-const register = asyncHandler(async (req, res, next) => {
-    const { name, email, password, enrollment, phone, gender } = req.body;
-
-    if (!name || !email || !password || !enrollment || !phone || !gender) {
-        throw new ErrorHandler("Please, provide all details", 400);
-    }
-
-    if (password.length < 8) {
-        throw new ErrorHandler(
-            "Password must be at least 8 characters long",
-            400
-        );
-    }
-
-    const existedUser = await User.findOne({
-        $or: [{ email: email }, { enrollment: enrollment }],
-    });
-
-    if (existedUser) {
-        throw new ErrorHandler("User already exists", 400);
-    }
-
-    const user = await User.create({
-        name,
-        email,
-        password,
-        enrollment,
-        phone,
-        gender: gender.toLowerCase(),
-    });
-
-    sendToken(user, 201, res);
-});
 
 // Login user
 const login = asyncHandler(async (req, res) => {
-    const { enrollment, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!enrollment || !password) {
-        throw new ErrorHandler("Enrollment no. & Password is required", 400);
+    if (!email || !password) {
+        throw new ErrorHandler("Email & Password is required", 400);
     }
 
-    const user = await User.findOne({ enrollment }).select("+password");
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-        throw new ErrorHandler("Invalid Enrollment no. or Password", 401);
+        throw new ErrorHandler("Invalid Email or Password", 401);
     }
 
     const isMatch = await user.comparePassword(password);
@@ -142,4 +107,4 @@ const resetPassword = asyncHandler(async (req, res) => {
     sendToken(user, 200, res);
 });
 
-export { register, login, resetPassword, logout, forgotPassword };
+export { login, forgotPassword, resetPassword, logout };

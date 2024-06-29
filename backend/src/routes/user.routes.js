@@ -1,15 +1,18 @@
 import { Router } from "express";
-import { register, login, logout } from "../controllers/user.controller.js";
+import {
+    login,
+    forgotPassword,
+    resetPassword,
+    logout,
+} from "../controllers/user.controller.js";
+import { isLoggedin } from "../middlewares/isLoggedin.middleware.js";
 
 const router = Router();
-
-//Register
-router.route("/register").post(register);
 
 //Login
 router.route("/login").post(login);
 
 //Logout
-router.route("/logout").get(logout);
+router.route("/logout").get(isLoggedin, logout);
 
 export default router;
