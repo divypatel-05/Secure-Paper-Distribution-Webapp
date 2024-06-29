@@ -6,53 +6,52 @@ import { useEffect, useContext, useState } from "react";
 import { Context } from "./context/Context";
 
 function App() {
-  const { user } = useSelector((state) => state.user);
-  const { getUser, getPapers } = useContext(Context);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    getUser();
-    if (user) {
-      getPapers(setLoading);
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+    const { user } = useSelector((state) => state.user);
+    const { getUser } = useContext(Context);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        getUser(setLoading);
+    }, []);
 
-  return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Router>
-          <Routes>
-            {!user ? (
-              <>
-                <Route path="/" exact element={<Login />} />
-              </>
+    return (
+        <>
+            {loading ? (
+                <Loader />
             ) : (
-              <>
-                <Route path="/" exact element={<Home />} />
-                {user && user.role === "admin" && (
-                  <>
-                    <Route path="/adduser" exact element={<AddUser />} />
-                  </>
-                )}
-                {user && user.role === "examiner" && (
-                  <>
-                    <Route
-                      path="/uploadpaper"
-                      exact
-                      element={<UploadPaper />}
-                    />
-                  </>
-                )}
-              </>
+                <Router>
+                    <Routes>
+                        {!user ? (
+                            <>
+                                <Route path="/" exact element={<Login />} />
+                            </>
+                        ) : (
+                            <>
+                                <Route path="/" exact element={<Home />} />
+                                {user && user.role === "admin" && (
+                                    <>
+                                        <Route
+                                            path="/adduser"
+                                            exact
+                                            element={<AddUser />}
+                                        />
+                                    </>
+                                )}
+                                {user && user.role === "examiner" && (
+                                    <>
+                                        <Route
+                                            path="/uploadpaper"
+                                            exact
+                                            element={<UploadPaper />}
+                                        />
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </Routes>
+                </Router>
             )}
-          </Routes>
-        </Router>
-      )}
-    </>
-  );
+        </>
+    );
 }
 
 export default App;

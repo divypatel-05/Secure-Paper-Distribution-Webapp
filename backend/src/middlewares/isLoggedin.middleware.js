@@ -7,7 +7,7 @@ const isLoggedin = async (req, res, next) => {
         const token = req.cookies.token;
 
         if (!token) {
-            throw new ErrorHandler("You are not logged in", 401);
+            throw new ErrorHandler("You are not logged in...", 401);
         }
 
         const _id = await jwt.verify(token, process.env.JWT_SECRET);
