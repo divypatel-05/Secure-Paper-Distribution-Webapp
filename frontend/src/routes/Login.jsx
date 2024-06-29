@@ -1,8 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInput = (e) => {
@@ -13,12 +15,10 @@ const Login = () => {
     e.preventDefault();
     if (formData.password.trim().length < 8) {
       setErrorMessage("* password must be at least 8 characters");
-    } else if (formData.enrollment.trim().length !== 12) {
-      setErrorMessage("* enrollment must be 12 digits");
     } else {
       setErrorMessage("");
       setFormData({
-        enrollment: "",
+        email: "",
         password: "",
       });
     }
@@ -28,27 +28,27 @@ const Login = () => {
     <>
       <div className="text-center flex flex-col justify-center items-center h-screen">
         <form
-          className="flex flex-col justify-center items-center border border-blue-300 p-2.5 rounded-lg w-4/12 gap-4"
+          className="flex flex-col justify-center items-center border border-blue-300 p-2.5 rounded-lg sm:w-6/12 md:w-5/12 lg:w-4/12 w-11/12 gap-4"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-bold">Login</h1>
+          <h1 className="text-3xl font-semibold">Login</h1>
           <div className="flex flex-col text-left w-full">
-            <label htmlFor="enrollment" className="font-medium">
-              Enrollment no.
+            <label htmlFor="email" className="font-medium">
+              Email
             </label>
             <input
-              type="number"
-              name="enrollment"
-              id="enrollment"
+              type="email"
+              name="email"
+              id="email"
               required
-              value={formData.enrollment}
+              value={formData.email}
               onChange={handleInput}
-              placeholder="210280107111"
+              placeholder="niga@odoo.com"
               className="border border-black p-2.5 rounded-md w-full placeholder:text-gray-300 spinner-none"
             />
           </div>
           <div className="flex flex-col text-left w-full">
-            <label htmlFor="enrollment" className="font-medium">
+            <label htmlFor="password" className="font-medium">
               Password
             </label>
             <input
@@ -73,14 +73,6 @@ const Login = () => {
             >
               Login
             </button>
-            <p className="text-sm mt-2">
-              Don't have an account?{" "}
-              <Link to="/signup">
-                <span className="text-blue-500 cursor-pointer">
-                  Register here
-                </span>
-              </Link>
-            </p>
           </div>
         </form>
       </div>
