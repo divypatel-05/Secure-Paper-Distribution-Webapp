@@ -1,15 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 const UploadPaper = () => {
-  const handleSubmit = (e) => {
+  const [inputData, setInputData] = useState({
+    year: "",
+    semester: "",
+    branch: "",
+    subject: "",
+    paper: "",
+  });
+
+  const handleInput = (e) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
+  };
+
+  const handleFile = (e) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitted");
+    // send data to server
+    try {
+      const formData = new FormData();
+      formData.append("year", inputData.year);
+      formData.append("semester", inputData.semester);
+      formData.append("branch", inputData.branch);
+      formData.append("subject", inputData.subject);
+      formData.append("paper", inputData.paper);
+
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/examiner/paper",
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 w-4/12 mx-auto"
+        className="flex flex-col gap-2 w-4/12 mx-auto"
+        encType="multipart/form-data"
       >
         <h1 className="text-3xl font-semibold text-center">Paper Details</h1>
         <div className="flex flex-col">
@@ -18,6 +56,11 @@ const UploadPaper = () => {
             type="number"
             name="year"
             id="year"
+            required
+            min={2000}
+            max={2024}
+            value={inputData.year}
+            onChange={handleInput}
             className="spinner-none p-2.5 border border-black rounded-md"
             placeholder="Year"
           />
@@ -28,6 +71,11 @@ const UploadPaper = () => {
             type="number"
             name="semester"
             id="semester"
+            required
+            min={1}
+            max={8}
+            value={inputData.semester}
+            onChange={handleInput}
             className="spinner-none p-2.5 border border-black rounded-md"
             placeholder="semester"
           />
@@ -38,73 +86,36 @@ const UploadPaper = () => {
             type="text"
             name="branch"
             id="branch"
+            required
+            value={inputData.branch}
+            onChange={handleInput}
             className="p-2.5 border border-black rounded-md"
             placeholder="branch"
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="subjectcode">Subject code</label>
+          <label htmlFor="subject">Subject code</label>
           <input
             type="number"
-            name="subjectcode"
-            id="subjectcode"
+            name="subject"
+            id="subject"
+            required
+            value={inputData.subject}
+            onChange={handleInput}
             className="spinner-none p-2.5 border border-black rounded-md"
             placeholder="subject code"
           />
         </div>
         <div className="flex flex-col">
-          {/* <label htmlFor="paperfile">Subject code</label>
+          <label htmlFor="paper">Paper</label>
           <input
             type="file"
-            name="paperfile"
-            id="paperfile"
-            className="border border-black rounded-md"
-          /> */}
-
-          {/* <label
-            className="block mb-2 text-sm font-medium text-gray-900"
-            htmlFor="file_input"
-          >
-            Upload file
-          </label>
-          <input
-            className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            id="file_input"
-            type="file"
-          /> */}
-
-          <div className="flex items-center justify-center w-full">
-            <label
-              htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-              </div>
-              <input id="dropzone-file" type="file" className="hidden" />
-            </label>
-          </div>
+            name="paper"
+            id="paper"
+            required
+            onChange={handleFile}
+            className="p-2.5 border border-black rounded-md"
+          />
         </div>
 
         <button

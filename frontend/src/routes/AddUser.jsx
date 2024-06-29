@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navbar } from "../components";
 
 const AddUser = () => {
   const pattern = /[\w_\.]+@([\w]+\.)+[\w-]{2,10}/gi;
@@ -40,6 +41,7 @@ const AddUser = () => {
 
   return (
     <>
+      <Navbar />
       <div className="text-center flex flex-col justify-center items-center h-screen">
         <form
           className="flex flex-col justify-center items-center border border-blue-300 p-2.5 rounded-lg lg:w-6/12 sm:w-8/12 md:gap-4 w-11/12 m-2.5"

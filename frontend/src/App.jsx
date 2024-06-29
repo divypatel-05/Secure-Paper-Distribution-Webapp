@@ -10,8 +10,8 @@ function App() {
   const { getUser, getPapers } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    getUser();
     if (user) {
-      getUser();
       getPapers(setLoading);
     } else {
       setLoading(false);
@@ -27,18 +27,18 @@ function App() {
           <Routes>
             {!user ? (
               <>
-                {/* <Route path="/" exact element={<Login />} /> */}
-                <Route path="/" exact element={<UploadPaper />} />
+                <Route path="/" exact element={<Login />} />
               </>
             ) : (
               <>
                 <Route path="/" exact element={<Home />} />
-              </>
-            )}
-            <Route path="/login" exact element={<Login />} />
-            {user && user.role === "admin" && (
-              <>
-                <Route path="/adduser" exact element={<AddUser />} />
+                {user && user.role === "admin" && (
+                  <>
+                    <Route path="/adduser" exact element={<AddUser />} />
+                  </>
+                )}
+
+                <Route path="/uploadpaper" exact element={<UploadPaper />} />
               </>
             )}
           </Routes>
