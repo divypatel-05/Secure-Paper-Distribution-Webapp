@@ -15,6 +15,12 @@ const Login = () => {
       setErrorMessage("* password must be at least 8 characters");
     } else if (formData.enrollment.trim().length !== 12) {
       setErrorMessage("* enrollment must be 12 digits");
+    } else {
+      setErrorMessage("");
+      setFormData({
+        enrollment: "",
+        password: "",
+      });
     }
   };
 
@@ -35,6 +41,8 @@ const Login = () => {
               name="enrollment"
               id="enrollment"
               required
+              value={formData.enrollment}
+              onChange={handleInput}
               placeholder="210280107111"
               className="border border-black p-2.5 rounded-md w-full placeholder:text-gray-300 spinner-none"
             />
@@ -48,15 +56,21 @@ const Login = () => {
               name="password"
               id="password"
               required
+              value={formData.password}
+              onChange={handleInput}
               placeholder="********"
               className="border border-black p-2.5 rounded-md w-full placeholder:text-gray-300 spinner-none"
             />
           </div>
           <div className="flex flex-col text-left w-full gap-2">
+            <p className="text-red-500 font-medium">{errorMessage}</p>
             <p className="text-sm text-blue-500 cursor-pointer">
               Forget Password?
             </p>
-            <button className="p-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium">
+            <button
+              className="p-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium"
+              type="submit"
+            >
               Login
             </button>
             <p className="text-sm mt-2">
