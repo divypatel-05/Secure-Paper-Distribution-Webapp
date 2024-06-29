@@ -14,9 +14,9 @@ const DisplayPDF = () => {
                     withCredentials: true,
                 }
             );
-            if (res.status === 200) {
-                dispatch(addPaper(res.data.papers));
-            }
+            // if (res.status === 200) {
+            dispatch(addPaper([res.data.paper, ...papers]));
+            // }
         } catch (err) {
             console.error(err);
         } finally {
