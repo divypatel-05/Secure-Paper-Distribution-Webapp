@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AddUser, Home, Login } from "./routes";
 import { useSelector } from "react-redux";
-import { ExaminorHome, Loader } from "./components";
+import { Loader, UploadPaper } from "./components";
 import { useEffect, useContext, useState } from "react";
 import { Context } from "./context/Context";
 
@@ -28,7 +28,7 @@ function App() {
             {!user ? (
               <>
                 {/* <Route path="/" exact element={<Login />} /> */}
-                <Route path="/" exact element={<ExaminorHome />} />
+                <Route path="/" exact element={<UploadPaper />} />
               </>
             ) : (
               <>
