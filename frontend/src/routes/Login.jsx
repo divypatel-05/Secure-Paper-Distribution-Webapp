@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../features/userSlice.js";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -11,11 +17,21 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password.trim().length < 8) {
       setErrorMessage("* password must be at least 8 characters");
     } else {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/user/login",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      dispatch(addUser(res.data.user));
+      navigate("/");
       setErrorMessage("");
       setFormData({
         email: "",
