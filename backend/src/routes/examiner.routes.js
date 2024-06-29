@@ -1,15 +1,22 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
-import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 import { isLoggedin } from "../middlewares/isLoggedin.middleware.js";
-import { uploadPaper } from "../controllers/examiner.controller.js";
+import {
+    deletePaper,
+    uploadPaper,
+    getPapers,
+} from "../controllers/examiner.controller.js";
 import { isExaminer } from "../middlewares/isExaminer.js";
 
 const router = Router();
 
-//Upload Paper
+//Upload Paper or get Papers
 router
-    .route("/add/paper")
-    .post(isLoggedin, isExaminer, upload.single("paper"), uploadPaper);
+    .route("/paper")
+    .post(isLoggedin, isExaminer, upload.single("paper"), uploadPaper)
+    .get(isLoggedin, isExaminer, getPapers);
+
+//Delete paper
+router.route("/paper/:_id").delete(isLoggedin, isExaminer, deletePaper);
 
 export default router;

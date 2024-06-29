@@ -31,8 +31,33 @@ const uploadPaper = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         success: true,
-        paper,
+        url,
     });
 });
 
-export { uploadPaper };
+const deletePaper = asyncHandler(async (req, res) => {
+    const paper = await Paper.findById(req.params._id);
+    if (!paper) {
+        throw new ErrorHandler("Paper not found", 404);
+    }
+    await paper.remove();
+    res.status(200).json({
+        success: true,
+        message: "Paper deleted successfully",
+    });
+});
+
+const getPapers = asyncHandler(async (req, res) => {
+    const limit = Number(req.query.limit) || 10;
+    const page = Number(req.query.page) || 2;
+    const papers = await Paper.find({ author: req.user._id })
+        .limit(10)
+        .skip(page * (limit - 1))
+        .sort({ createdAt: -1 });
+    res.status(200).json({
+        success: true,
+        papers,
+    });
+});
+
+export { uploadPaper, deletePaper, getPapers };
