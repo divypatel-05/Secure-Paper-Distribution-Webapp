@@ -2,10 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleInput = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.password.trim().length < 8) {
+      setErrorMessage("* password must be at least 8 characters");
+    } else if (formData.enrollment.trim().length !== 12) {
+      setErrorMessage("* enrollment must be 12 digits");
+    }
+  };
+
   return (
     <>
       <div className="text-center flex flex-col justify-center items-center h-screen">
-        <form className="flex flex-col justify-center items-center border border-blue-300 p-2.5 rounded-lg w-4/12 gap-4">
+        <form
+          className="flex flex-col justify-center items-center border border-blue-300 p-2.5 rounded-lg w-4/12 gap-4"
+          onSubmit={handleSubmit}
+        >
           <h1 className="text-3xl font-bold">Login</h1>
           <div className="flex flex-col text-left w-full">
             <label htmlFor="enrollment" className="font-medium">

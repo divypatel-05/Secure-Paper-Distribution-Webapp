@@ -12,7 +12,7 @@ const SignUp = () => {
     phone: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,19 +21,18 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!checkConfirmPassword()) {
-      setErrorMsg("* passwords do not match");
+      setErrorMessage("* passwords do not match");
     } else if (formData.name.trim().length < 6) {
-      setErrorMsg("* name must be at least 6 characters");
+      setErrorMessage("* name must be at least 6 characters");
     } else if (formData.enrollment.trim().length !== 12) {
-      setErrorMsg("* enrollment must be 12 digits");
+      setErrorMessage("* enrollment must be 12 digits");
     } else if (!pattern.test(formData.email)) {
-      setErrorMsg("* invalid email");
+      setErrorMessage("* invalid email");
     } else if (formData.phone.trim().length !== 10) {
-      setErrorMsg("* phone number must be 10 digits");
+      setErrorMessage("* phone number must be 10 digits");
     } else if (formData.password.trim().length < 8) {
-      setErrorMsg("* password must be at least 8 characters");
+      setErrorMessage("* password must be at least 8 characters");
     } else {
-      console.log(formData);
       setFormData({
         name: "",
         enrollment: "",
@@ -42,7 +41,7 @@ const SignUp = () => {
         email: "",
         phone: "",
       });
-      setErrorMsg("");
+      setErrorMessage("");
       setConfirmPassword("");
     }
   };
@@ -217,7 +216,7 @@ const SignUp = () => {
 
           {/* Submit */}
           <div className="flex flex-col text-left w-full gap-2">
-            <p className="text-red-500 font-medium">{errorMsg}</p>
+            <p className="text-red-500 font-medium">{errorMessage}</p>
             <button
               className="p-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium"
               type="submit"
