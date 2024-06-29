@@ -16,7 +16,7 @@ function App() {
     } else {
       setLoading(false);
     }
-  });
+  }, [user]);
 
   return (
     <>
@@ -37,8 +37,15 @@ function App() {
                     <Route path="/adduser" exact element={<AddUser />} />
                   </>
                 )}
-
-                <Route path="/uploadpaper" exact element={<UploadPaper />} />
+                {user && user.role === "examiner" && (
+                  <>
+                    <Route
+                      path="/uploadpaper"
+                      exact
+                      element={<UploadPaper />}
+                    />
+                  </>
+                )}
               </>
             )}
           </Routes>

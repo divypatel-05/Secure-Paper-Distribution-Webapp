@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const DisplayPDF = () => {
   const pdfs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const papers = useSelector((state) => state.paper.papers);
+
   const handleDownload = ({ url, fileName }) => {
     fetch(url)
       .then((response) => response.blob())
@@ -27,40 +30,38 @@ const DisplayPDF = () => {
         Papers
       </h1>
       <div className="grid grid-cols-3 gap-4 w-10/12 mx-auto items-center justify-center">
-        {pdfs.map((pdf, index) => (
-          <div
-            key={index}
-            className="p-2.5 w-96 h-fit rounded-md border border-blue-300 overflow-hidden scrollbar-none flex flex-col gap-2"
-          >
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SwD-Q0jF1cOiBaCdDdNY5h_okbdDBKFlTg&s"
-              alt="Img"
-              className="p-5 mx-auto object-contain"
-            />
-            <p className="text-center font-medium">Paper Name</p>
-            <div className="flex gap-2 justify-between">
-              <a
-                href="https://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf"
-                target="_blank"
-                className="w-full text-white text-center font-semibold rounded-md bg-blue-600 hover:bg-blue-700 p-2.5"
-              >
-                View
-              </a>
-              <a
-                download
-                onClick={() =>
-                  handleDownload({
-                    url: "https://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf",
-                    fileName: "paper.pdf",
-                  })
-                }
-                className="w-full cursor-pointer text-center text-white font-semibold rounded-md bg-blue-600 hover:bg-blue-700 p-2.5"
-              >
-                Download
-              </a>
+        {papers &&
+          papers.length > 0 &&
+          papers.map((paper, index) => (
+            <div
+              key={index}
+              className="p-2.5 w-96 h-fit rounded-md border border-blue-300 overflow-hidden scrollbar-none flex flex-col gap-2"
+            >
+              <iframe src={paper.url} frameborder="0"></iframe>
+              <p className="text-center font-medium">{paper.subjectcode}</p>
+              <div className="flex gap-2 justify-between">
+                <a
+                  href={paper.url}
+                  target="_blank"
+                  className="w-full text-white text-center font-semibold rounded-md bg-blue-600 hover:bg-blue-700 p-2.5"
+                >
+                  View
+                </a>
+                <a
+                  download
+                  onClick={() =>
+                    handleDownload({
+                      url: paper.url,
+                      fileName: `${paper.subjectcode}.pdf`,
+                    })
+                  }
+                  className="w-full cursor-pointer text-center text-white font-semibold rounded-md bg-blue-600 hover:bg-blue-700 p-2.5"
+                >
+                  Download
+                </a>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </>
   );

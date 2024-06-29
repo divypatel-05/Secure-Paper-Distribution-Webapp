@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addPaper } from "../features/paperSlice";
+import { NavLink } from "react-router-dom";
 
 const ExaminorHome = () => {
   const { papers } = useSelector((state) => state.paper);
@@ -27,9 +28,12 @@ const ExaminorHome = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-4">
-        <button className="font-medium mt-16 w-2/12 mx-auto p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+        <NavLink
+          to={"/uploadpaper"}
+          className="text-center font-medium mt-16 w-2/12 mx-auto p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+        >
           Upload Paper
-        </button>
+        </NavLink>
         <div className="grid grid-cols-3 gap-4">
           {papers &&
             papers.length > 0 &&
