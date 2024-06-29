@@ -25,8 +25,6 @@ const uploadPaper = asyncHandler(async (req, res) => {
         branch,
         subject,
         url,
-        starttime,
-        endtime,
     });
 
     res.status(200).json({

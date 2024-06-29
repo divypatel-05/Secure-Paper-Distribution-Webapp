@@ -40,4 +40,14 @@ const register = asyncHandler(async (req, res, next) => {
     });
 });
 
+const getExaminers = asyncHandler(async (req, res) => {
+    const examiners = await User.find({ role: "examiner" });
+    res.status(200).json({ success: true, examiners });
+});
+
+const getInvigilators = asyncHandler(async (req, res) => {
+    const examiners = await User.find({ role: "examiner" });
+    res.status(200).json({ success: true, examiners });
+});
+
 export { register };

@@ -30,14 +30,6 @@ const paperSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        starttime: {
-            type: Date,
-            required: true,
-        },
-        endtime: {
-            type: Date,
-            required: true,
-        },
     },
     { timestamps: true }
 );
